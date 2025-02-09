@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Myntra Redirect</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
     <script>
-      // Function to get URL parameters
-      function getQueryParam(param) {
-          let params = new URLSearchParams(window.location.search);
-          return params.get(param);
-      }
-  
-      // Get the Myntra product URL from query parameter
-      let myntraProductURL = getQueryParam("url");
-  
-      // If no product URL is provided, redirect to Myntra homepage
-      if (!myntraProductURL) {
-          myntraProductURL = "https://www.myntra.com";
-      }
-  
-      // Attempt to open in Myntra app
-      window.location.href = "myntra://openapp?url=" + myntraProductURL;
-  
-      // Fallback to browser after 2 seconds if app doesn't open
-      setTimeout(function () {
-          window.location.href = myntraProductURL;
-      }, 2000);
-  </script>
+        function getQueryParam(param) {
+            let params = new URLSearchParams(window.location.search);
+            return params.get(param);
+        }
 
+        // Get the Myntra product URL from the query parameter
+        let myntraProductURL = getQueryParam("url");
+
+        // If no URL is provided, redirect to Myntra homepage
+        if (!myntraProductURL) {
+            myntraProductURL = "https://www.myntra.com";
+        }
+
+        // Attempt to open in Myntra app
+        window.location.href = "myntra://openapp?url=" + myntraProductURL;
+
+        // Fallback to browser if app doesn't open
+        setTimeout(function () {
+            window.location.href = myntraProductURL;
+        }, 2000);
+    </script>
 </head>
 <body>
-
+    <p>Redirecting to Myntra...</p>
 </body>
 </html>
