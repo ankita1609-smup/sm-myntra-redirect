@@ -10,18 +10,19 @@
             return params.get(param);
         }
 
-        // Get the Myntra product URL from the query parameter
         let myntraProductURL = getQueryParam("url");
 
-        // If no URL is provided, redirect to Myntra homepage
         if (!myntraProductURL) {
-            myntraProductURL = "https://www.myntra.com";
+            myntraProductURL = "https://www.myntra.com"; // Fallback to homepage
         }
 
-        // Attempt to open in Myntra app
-        window.location.href = "myntra://openapp?url=" + myntraProductURL;
+        // Convert Myntra short link (myntr.it) into a deep link for the Myntra app
+        let deepLink = `intent://${myntraProductURL.replace('https://', '')}#Intent;scheme=https;package=com.myntra.android;end;`;
 
-        // Fallback to browser if app doesn't open
+        // Attempt to open the product in the Myntra app
+        window.location.href = deepLink;
+
+        // Fallback to browser if Myntra app is not installed
         setTimeout(function () {
             window.location.href = myntraProductURL;
         }, 2000);
