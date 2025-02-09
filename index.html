@@ -13,19 +13,27 @@
         let myntraProductURL = getQueryParam("url");
 
         if (!myntraProductURL) {
-            myntraProductURL = "https://www.myntra.com"; // Fallback to homepage
+            myntraProductURL = "https://www.myntra.com"; // Fallback to Myntra homepage
         }
 
-        // Convert Myntra short link (myntr.it) into a deep link for the Myntra app
-        let deepLink = `intent://${myntraProductURL.replace('https://', '')}#Intent;scheme=https;package=com.myntra.android;end;`;
+        // Check if it's a short link (myntr.it) and expand it
+        if (myntraProductURL.includes("myntr.it")) {
+            fetch(myntraProductURL, { method: "HEAD", redirect: "follow" })
+                .then(response => {
+                    window.location.href = response.url;
+                })
+                .catch(() => {
+                    window.location.href = myntraProductURL; // Open original if expansion fails
+                });
+        } else {
+            // Open Myntra App (if installed), else fallback to browser
+            let deepLink = `myntra://open?link=${encodeURIComponent(myntraProductURL)}`;
+            window.location.href = deepLink;
 
-        // Attempt to open the product in the Myntra app
-        window.location.href = deepLink;
-
-        // Fallback to browser if Myntra app is not installed
-        setTimeout(function () {
-            window.location.href = myntraProductURL;
-        }, 2000);
+            setTimeout(() => {
+                window.location.href = myntraProductURL; // Open in browser if app is not installed
+            }, 2000);
+        }
     </script>
 </head>
 <body>
